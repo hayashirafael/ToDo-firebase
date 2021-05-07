@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, FlatList, Keyboard } from 'react-native';
 import TaskList from './src/TaskList'
 import database from '@react-native-firebase/database'
@@ -7,6 +7,8 @@ export default function App() {
 
   const [newTask, setNewTask] = useState('')
   const [tasks, setTasks] = useState([])
+  const inputRef = useRef(null)
+  const [key, setKey] = useState('')
 
   useEffect(() => {
     async function loadTasks() {
@@ -26,22 +28,36 @@ export default function App() {
 
   async function handleAdd() {
     if(newTask !== '') {
+
+      if(key !== '') {
+        await database().ref('tarefas').child(key).update({
+          nome: newTask
+        })
+        Keyboard.dismiss()
+        setNewTask('')
+        setKey('')
+        return
+      }
+
       let tarefas = await database().ref('tarefas');
       let chave = tarefas.push().key
 
       tarefas.child(chave).set({
         nome: newTask
       })
-      alert('Tarefa adicionada!')
       Keyboard.dismiss()
       setNewTask('')
-      
-
     }
   }
 
   async function handleDelete(key) {
     await database().ref('tarefas').child(key).remove()
+  }
+
+  function handleEdit(data) {
+    setNewTask(data.nome)
+    setKey(data.key)
+    inputRef.current.focus() //Referenciar o TextInput (59)
   }
 
  return (
@@ -53,6 +69,7 @@ export default function App() {
        underlineColorAndroid="transparent"
        onChangeText={(text) => setNewTask(text)}
        value={newTask}
+       ref={inputRef}
        />
        <TouchableOpacity style={styles.buttonAdd} onPress={handleAdd}>
          <Text style={styles.buttonText}>+</Text>
@@ -63,7 +80,7 @@ export default function App() {
      data={tasks}
      keyExtractor={item => item.key}
      renderItem={({item}) => (
-       <TaskList data={item} deleteItem={handleDelete} />
+       <TaskList data={item} deleteItem={handleDelete} editItem={handleEdit} />
      )}
      />
    </View>

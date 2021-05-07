@@ -1,17 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather'
 
-export default function TaskList({data, deleteItem}) {
+export default function TaskList({data, deleteItem, editItem}) {
  return (
    <View style={styles.container}>
        <TouchableOpacity style={{marginRight: 10}} onPress={() => deleteItem(data.key)}>
            <Icon name="trash" color="#FFF" size={20} />
        </TouchableOpacity>
 
-       <View style={{paddingRight: 15}}>
-           <Text style={{paddingRight: 10, color: '#fff'}}>{data.nome}</Text>
-       </View>
+    <View style={{paddingRight: 15}}>
+        <TouchableWithoutFeedback onPress={() => editItem(data)}>
+            <Text style={{paddingRight: 10, color: '#fff'}}>{data.nome}</Text>   
+        </TouchableWithoutFeedback>
+           
+    </View>
    </View>
    
   )
