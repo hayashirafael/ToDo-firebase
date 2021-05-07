@@ -35,6 +35,7 @@ export default function App() {
       alert('Tarefa adicionada!')
       Keyboard.dismiss()
       setNewTask('')
+      
 
     }
   }
