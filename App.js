@@ -39,6 +39,10 @@ export default function App() {
     }
   }
 
+  function handleDelete() {
+    alert('Deletado')
+  }
+
  return (
    <View style={styles.container}>
      <View style={styles.containerTask}>
@@ -58,7 +62,7 @@ export default function App() {
      data={tasks}
      keyExtractor={item => item.key}
      renderItem={({item}) => (
-       <TaskList data={item} />
+       <TaskList data={item} deleteItem={handleDelete} />
      )}
      />
    </View>
