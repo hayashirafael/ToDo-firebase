@@ -39,8 +39,8 @@ export default function App() {
     }
   }
 
-  function handleDelete() {
-    alert('Deletado')
+  async function handleDelete(key) {
+    await database().ref('tarefas').child(key).remove()
   }
 
  return (
