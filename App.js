@@ -61,12 +61,18 @@ export default function App() {
     inputRef.current.focus() //Referenciar o TextInput (59)
   }
 
+  function cancelEdit() {
+    setKey('')
+    setNewTask('')
+    Keyboard.dismiss()
+  }
+
  return (
    <View style={styles.container}>
 
      {key.length > 0 && (
        <View style={{flexDirection: 'row'}}>
-       <TouchableOpacity>
+       <TouchableOpacity onPress={cancelEdit}>
          <Icon name="x-circle" size={20} color="#ff0000" />
        </TouchableOpacity>
        <Text style={{marginLeft: 5, marginBottom: 8, color: "#ff0000"}}
