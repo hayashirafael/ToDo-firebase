@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, FlatList, Keyboard } from 'react-native';
 import TaskList from './src/TaskList'
 import database from '@react-native-firebase/database'
+import Icon from 'react-native-vector-icons/Feather'
 
 export default function App() {
 
@@ -62,6 +63,20 @@ export default function App() {
 
  return (
    <View style={styles.container}>
+
+     {key.length > 0 && (
+       <View style={{flexDirection: 'row'}}>
+       <TouchableOpacity>
+         <Icon name="x-circle" size={20} color="#ff0000" />
+       </TouchableOpacity>
+       <Text style={{marginLeft: 5, marginBottom: 8, color: "#ff0000"}}
+       >Você está editando uma tarefa!</Text>
+     </View>
+     )}
+
+     
+
+
      <View style={styles.containerTask}>
        <TextInput
        style={styles.input}
